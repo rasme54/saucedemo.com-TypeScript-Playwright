@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "open": "npx playwright test --ui"
+    "open": "npx playwright test --ui --trace on",
+    "raport": "npx playwright show-report",
+    "prettier": "prettier --write ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.9"
+    "@types/node": "^22.13.9",
+    "prettier": "^3.5.3"
   }
 }
