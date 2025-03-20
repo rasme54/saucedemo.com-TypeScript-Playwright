@@ -1,31 +1,39 @@
 import { test, expect } from "@playwright/test";
+import HomePage from "../PageObject/homePage";
 import LoginPage from "../PageObject/loginPage";
 import Utils from "../PageObject/utils";
 
 test.describe("Test Scenario 1 - LogInLogOut", () => {
-  
-  test("TS1 - LogInLogOut", async ({ page }) => {
-    const loginPage = new LoginPage(page);
+  let homePage: HomePage;
+  let loginPage: LoginPage;
+  let utils: Utils;
+
+  test.beforeEach(async ({ page }) => {
+    homePage = new HomePage(page);
+    loginPage = new LoginPage(page);
+    utils = new Utils(page);
+  });
+
+  test("TS1 - LogInLogOut", async () => {
     await loginPage.visit();
     await loginPage.logIn("standard_user", "secret_sauce");
   });
 
-  test.only("TS2 - IncorrectLogIn", async ({page}) => {
-    const loginPage = new LoginPage(page);
-    const utils = new Utils (page);
+  test("TS2 - IncorrectLogIn", async () => {
     await loginPage.visit();
     await loginPage.logIn("incorrect_user", "secret_sauce");
-    await utils.isStringVisible("div[class='error-message-container error']", "Epic sadface: Username and password do not match any user in this service");
-  })
+    await utils.isStringVisible(
+      "div[class='error-message-container error']",
+      "Epic sadface: Username and password do not match any user in this service",
+    );
+  });
+
+  test("TS3 - LogOut", async () => {
+    await loginPage.visit();
+    await loginPage.logIn("standard_user", "secret_sauce");
+    await homePage.logOut()
+    await utils.isUrlValid("https://www.saucedemo.com/")
+  });
 });
 
-// Epic sadface: Username and password do not match any user in this service
 
-// 1. Launch browser
-// 2. Navigate to url 'http://automationexercise.com'
-// 3. Verify that home page is visible successfully
-// 4. Click on 'Signup / Login' button
-// 5. Verify 'Login to your account' is visible
-// 6. Enter incorrect email address and password
-// 7. Click 'login' button
-// 8. Verify error 'Your email or password is incorrect!' is visible
