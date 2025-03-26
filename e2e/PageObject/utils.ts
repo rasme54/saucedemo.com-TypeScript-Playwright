@@ -11,5 +11,8 @@ class Utils {
     const currentUrl = this.page.url();
     expect(currentUrl).toBe(expectedUrl);
   }
+  async isPageVisible(): Promise<void> {
+    this.page.locator("body").isVisible()
+  }
 }
 export default Utils;
